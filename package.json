@@ -1,0 +1,26 @@
+{
+  "name": "mx-bitcoin-address",
+  "version": "0.0.1",
+  "description": "Bitcoin addresses generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mxxn/mx-bitcoin-address.git"
+  },
+  "keywords": [
+    "bitcoin"
+  ],
+  "author": "me@mxxn.ru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mxxn/mx-bitcoin-address/issues"
+  },
+  "homepage": "https://github.com/mxxn/mx-bitcoin-address#readme",
+  "dependencies": {
+    "bigi": "1.4.1",
+    "ecurve": "1.0.2"
+  }
+}
