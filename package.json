@@ -21,6 +21,7 @@
   "homepage": "https://github.com/mxxn/mx-bitcoin-address#readme",
   "dependencies": {
     "bigi": "1.4.1",
+    "bs58": "3.0.0",
     "ecurve": "1.0.2"
   }
 }

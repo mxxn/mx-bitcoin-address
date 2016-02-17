@@ -1,6 +1,10 @@
 var crypto = require('crypto');
 var secp256k1 = require('ecurve').getCurveByName('secp256k1');
 var bigi = require('bigi');
+var bs58 = require('bs58');
+
+var KEY_SIZE = 32;
+var hexKeyReqexp = new RegExp('^[0-9a-f]{' + KEY_SIZE * 2 + '}$', 'i');
 
 function sha256(token) {
     return crypto.createHash('sha256').update(token).digest();
@@ -11,11 +15,12 @@ function ripemd160(token) {
 }
 
 function Generator(buf) {
-    if (buf.length !== 32) throw new Error('Private key buffer length must be 32 bytes');
+    if (buf.length !== KEY_SIZE) throw new Error('Private key buffer length must be ' + KEY_SIZE + ' bytes');
 
     this.privateKey = {
         buffer: buf,
-        bigi: bigi.fromBuffer(buf)
+        bigi: bigi.fromBuffer(buf),
+        wif: null
     };
 
     if (this.privateKey.bigi.signum() <= 0) throw new Error('Private key must be greater than 0');
@@ -23,7 +28,7 @@ function Generator(buf) {
 
     this.publicKey = {
         buffer: null,
-        bigi: null
+        address: null
     }
 }
 
@@ -34,33 +39,48 @@ Generator.fromString = function(s) {
 };
 
 Generator.fromRandom = function() {
-    return new Generator(crypto.randomBytes(32));
+    return new Generator(crypto.randomBytes(KEY_SIZE));
+};
+
+Generator.fromHex = function(hex) {
+    if (!hexKeyReqexp.test(hex)) throw new Error('Invalid HEX string');
+
+    return new Generator(Buffer(hex, 'hex'));
 };
 
 Generator.prototype.getPrivateKeyBuffer = function() {
     return this.privateKey.buffer;
 };
 
-Generator.prototype.getPrivateKeyBigi = function() {
-    return this.privateKey.bigi;
+Generator.prototype.getPrivateKeyWif = function() {
+    if (this.privateKey.wif === null) {
+        var ext = Buffer.concat([new Buffer([0x80]), this.getPrivateKeyBuffer()]);
+        this.privateKey.wif = bs58.encode(Buffer.concat([ext, sha256(sha256(ext)).slice(0, 4)]));
+    }
+
+    return this.privateKey.wif;
 };
 
 Generator.prototype.getPublicKeyBuffer = function() {
-    if (this.publicKey.buffer !== null) return this.publicKey.buffer;
+    if (this.publicKey.buffer === null) {
+        var curvePt = secp256k1.G.multiply(this.privateKey.bigi);
+        this.publicKey.buffer = Buffer.concat([
+            new Buffer([0x04]),
+            curvePt.affineX.toBuffer(32),
+            curvePt.affineY.toBuffer(32)
+        ]);
+    }
 
-    var curvePt = secp256k1.G.multiply(this.privateKey.bigi);
-    var x = curvePt.affineX.toBuffer(32);
-    var y = curvePt.affineY.toBuffer(32);
-
-    this.publicKey.buffer = Buffer.concat([new Buffer([0x04]), x, y]);
     return this.publicKey.buffer;
 };
 
-Generator.prototype.getPublicKeyBigi = function () {
-    if (this.publicKey.bigi !== null) return this.privateKey.bigi;
+Generator.prototype.getAddress = function() {
+    if (this.publicKey.address === null) {
+        var ripemd = Buffer.concat([new Buffer([0x00]), ripemd160(sha256(this.getPublicKeyBuffer()))]);
+        this.publicKey.address = bs58.encode(Buffer.concat([ripemd, sha256(sha256(ripemd)).slice(0, 4)]));
+    }
 
-    this.privateKey.bigi = bigi.fromBuffer(this.getPublicKeyBuffer());
-    return this.privateKey.bigi;
+    return this.publicKey.address;
 };
 
 module.exports = Generator;
