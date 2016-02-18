@@ -11,7 +11,9 @@
     "url": "git+https://github.com/mxxn/mx-bitcoin-address.git"
   },
   "keywords": [
-    "bitcoin"
+    "bitcoin",
+    "address",
+    "generator"
   ],
   "author": "me@mxxn.ru",
   "license": "ISC",
