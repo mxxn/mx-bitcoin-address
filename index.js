@@ -83,4 +83,8 @@ Generator.prototype.getAddress = function() {
     return this.publicKey.address;
 };
 
-module.exports = Generator;
+module.exports = {
+    fromString: Generator.fromString,
+    fromRandom: Generator.fromRandom,
+    fromHex: Generator.fromHex
+};
