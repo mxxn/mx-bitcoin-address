@@ -8,18 +8,18 @@ Bitcoin addresses generator
     
 ## Usage
     
-    ```js
-    var generator = require('mx-bitcoin-address');
-    
-    var keys = generator.fromRandom();
-    //var keys = generator.fromString('your long password phrase here');
-    //var keys = generator.fromHex('0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D');
-    
-    console.log(keys.getPrivateKeyBuffer());
-    console.log(keys.getPrivateKeyWif());
-    console.log(keys.getPublicKeyBuffer());
-    console.log(keys.getAddress());
-    ```
+```js
+var generator = require('mx-bitcoin-address');
+
+var keys = generator.fromRandom();
+//var keys = generator.fromString('your long password phrase here');
+//var keys = generator.fromHex('0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D');
+
+console.log(keys.getPrivateKeyBuffer());
+console.log(keys.getPrivateKeyWif());
+console.log(keys.getPublicKeyBuffer());
+console.log(keys.getAddress());
+```
     
 ## API
 
