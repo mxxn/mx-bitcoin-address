@@ -15,16 +15,17 @@ function ripemd160(token) {
 }
 
 function Generator(buf) {
-    if (buf.length !== KEY_SIZE) throw new Error('Private key buffer length must be ' + KEY_SIZE + ' bytes');
-
     this.privateKey = {
         buffer: buf,
         bigi: bigi.fromBuffer(buf),
         wif: null
     };
 
-    if (this.privateKey.bigi.signum() <= 0) throw new Error('Private key must be greater than 0');
-    if (this.privateKey.bigi.compareTo(secp256k1.n) >= 0) throw new Error('Private key must be less than the curve order');
+    if (this.privateKey.bigi.signum() <= 0)
+        throw new Error('Private key must be greater than 0');
+
+    if (this.privateKey.bigi.compareTo(secp256k1.n) >= 0)
+        throw new Error('Private key must be less than the curve order');
 
     this.publicKey = {
         buffer: null,
@@ -33,7 +34,8 @@ function Generator(buf) {
 }
 
 Generator.fromString = function(s) {
-    if (!s || typeof s !== 'string') throw new Error('Passphrase must be string');
+    if (typeof s !== 'string') throw new Error('Password phrase must be string');
+    if (s.length === 0) throw new Error('Password phrase string is empty');
 
     return new Generator(sha256(sha256(s)));
 };

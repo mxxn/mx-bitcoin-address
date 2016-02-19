@@ -22,6 +22,8 @@ console.log(keys.getAddress());
 ```
     
 ## API
+Note: generator throws errors if generated private key larger then  
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140
 
 ### Static
 
@@ -31,11 +33,13 @@ Generates key pair from random number
 
 #### fromString(string password)
 
-Generates key pair from string (brainwallet, not safe). Uses double sha256.
+Generates key pair from string (brainwallet, not safe). Uses double sha256.  
+Throws errors if password wrong type or 0 length
 
 #### fromHex(string hex)
 
-Generates key pair from hex string (string must contain hex chars only and be 64 chars length)
+Generates key pair from hex string (string must contain hex chars only and be 64 chars length)  
+Throw error if hex string wrong format
 
 ### Instance
 
