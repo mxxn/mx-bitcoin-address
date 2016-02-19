@@ -1,6 +1,6 @@
 {
   "name": "mx-bitcoin-address",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Bitcoin addresses generator",
   "main": "index.js",
   "scripts": {
