@@ -41,6 +41,11 @@ Throws errors if password wrong type or 0 length
 Generates key pair from hex string (string must contain hex chars only and be 64 chars length)  
 Throws error if hex string wrong format
 
+#### fromBuffer(buffer)
+
+Generates key pair from buffer (buffer must be 32 bytes length)
+Throws error if buffer is not 32 bytes length
+
 ### Instance
 
 #### getPrivateKeyBuffer(): Buffer
