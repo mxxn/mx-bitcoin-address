@@ -2,6 +2,7 @@ var crypto = require('crypto');
 var secp256k1 = require('ecurve').getCurveByName('secp256k1');
 var bigi = require('bigi');
 var bs58 = require('bs58');
+var errors = require('./errors');
 
 var KEY_SIZE = 32;
 var hexKeyReqexp = new RegExp('^[0-9a-f]{' + KEY_SIZE * 2 + '}$', 'i');
@@ -22,10 +23,10 @@ function Generator(buf) {
     };
 
     if (this.privateKey.bigi.signum() <= 0)
-        throw new Error('Private key must be greater than 0');
+        throw new errors.PrivKeyGreaterZeroError();
 
     if (this.privateKey.bigi.compareTo(secp256k1.n) >= 0)
-        throw new Error('Private key must be less than the curve order');
+        throw new errors.PrivKeyLessCurveError();
 
     this.publicKey = {
         buffer: null,
@@ -34,8 +35,8 @@ function Generator(buf) {
 }
 
 Generator.fromString = function(s) {
-    if (typeof s !== 'string') throw new Error('Password phrase must be string');
-    if (s.length === 0) throw new Error('Password phrase string is empty');
+    if (typeof s !== 'string') throw new errors.PasswordMustBeStringError();
+    if (s.length === 0) throw new errors.PasswordIsEmptyError();
 
     return new Generator(sha256(sha256(s)));
 };
@@ -45,7 +46,7 @@ Generator.fromRandom = function() {
 };
 
 Generator.fromHex = function(hex) {
-    if (!hexKeyReqexp.test(hex)) throw new Error('Invalid HEX string');
+    if (!hexKeyReqexp.test(hex)) throw new errors.InvalidHexStringError();
 
     return new Generator(Buffer(hex, 'hex'));
 };
@@ -88,5 +89,10 @@ Generator.prototype.getAddress = function() {
 module.exports = {
     fromString: Generator.fromString,
     fromRandom: Generator.fromRandom,
-    fromHex: Generator.fromHex
+    fromHex: Generator.fromHex,
+    PrivKeyGreaterZeroError: errors.PrivKeyGreaterZeroError,
+    PrivKeyLessCurveError: errors.PrivKeyLessCurveError,
+    PasswordMustBeStringError: errors.PasswordMustBeStringError,
+    PasswordIsEmptyError: errors.PasswordIsEmptyError,
+    InvalidHexStringError: errors.InvalidHexStringError
 };
