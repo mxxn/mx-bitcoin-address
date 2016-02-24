@@ -51,6 +51,12 @@ Generator.fromHex = function(hex) {
     return new Generator(Buffer(hex, 'hex'));
 };
 
+Generator.fromBuffer = function(buf) {
+    if (buf.length !== KEY_SIZE) throw new Error('Buffer length must be ' + KEY_SIZE + ' bytes');
+
+    return new Generator(buf);
+};
+
 Generator.prototype.getPrivateKeyBuffer = function() {
     return this.privateKey.buffer;
 };
@@ -90,6 +96,7 @@ module.exports = {
     fromString: Generator.fromString,
     fromRandom: Generator.fromRandom,
     fromHex: Generator.fromHex,
+    fromBuffer: Generator.fromBuffer,
     PrivKeyGreaterZeroError: errors.PrivKeyGreaterZeroError,
     PrivKeyLessCurveError: errors.PrivKeyLessCurveError,
     PasswordMustBeStringError: errors.PasswordMustBeStringError,
