@@ -52,7 +52,7 @@ Generator.fromHex = function(hex) {
 };
 
 Generator.fromBuffer = function(buf) {
-    if (buf.length !== KEY_SIZE) throw new Error('Buffer length must be ' + KEY_SIZE + ' bytes');
+    if (buf.length !== KEY_SIZE) throw new errors.WrongBufferLengthError(KEY_SIZE);
 
     return new Generator(buf);
 };
