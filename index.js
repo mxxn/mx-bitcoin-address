@@ -41,8 +41,9 @@ Generator.fromString = function(s) {
     return new Generator(sha256(sha256(s)));
 };
 
-Generator.fromRandom = function() {
-    return new Generator(crypto.randomBytes(KEY_SIZE));
+Generator.fromRandom = function(randomizer) {
+    randomizer = randomizer || crypto;
+    return new Generator(randomizer.randomBytes(KEY_SIZE));
 };
 
 Generator.fromHex = function(hex) {
@@ -101,5 +102,6 @@ module.exports = {
     PrivKeyLessCurveError: errors.PrivKeyLessCurveError,
     PasswordMustBeStringError: errors.PasswordMustBeStringError,
     PasswordIsEmptyError: errors.PasswordIsEmptyError,
-    InvalidHexStringError: errors.InvalidHexStringError
+    InvalidHexStringError: errors.InvalidHexStringError,
+    WrongBufferLengthError: errors.WrongBufferLengthError
 };
