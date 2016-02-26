@@ -18,6 +18,7 @@ var keys = generator.fromRandom();
 console.log(keys.getPrivateKeyBuffer());
 console.log(keys.getPrivateKeyWif());
 console.log(keys.getPublicKeyBuffer());
+console.log(keys.getCompressedPublicKeyBuffer());
 console.log(keys.getAddress());
 ```
     
@@ -77,6 +78,10 @@ Returns string with your private key in WIF format
 #### getPublicKeyBuffer(): Buffer
 
 Returns buffer with your generated public key
+
+#### getCompressedPublicKeyBuffer(): Buffer
+
+Returns buffer with compressed public key
 
 #### getAddress(): string
 
