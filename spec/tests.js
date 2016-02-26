@@ -7,6 +7,7 @@ describe('A bitcoin address generator', function() {
         expect(keys.getPrivateKeyBuffer().toString('hex')).toBe('422d0091597ce6ec34f4f6c4c0d3db4a0dec70f2d57cd08858403dc4c5600efa');
         expect(keys.getPrivateKeyWif()).toBe('5JKRxEyFT9JHSwckH4NRCtHbJvo3mthVVB291YsX6bdu41kZF5k');
         expect(keys.getPublicKeyBuffer().toString('hex')).toBe('047ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78d082e4a4eba76cb51dfe3fb45e4d290120bba24b466f8885d47cd06243608f4b');
+        expect(keys.getCompressedPublicKeyBuffer().toString('hex')).toBe('037ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78');
         expect(keys.getAddress()).toBe('1KFHDgryDKC5ebnoRa2zhVL51JhQwEQK48');
     });
 
@@ -16,6 +17,7 @@ describe('A bitcoin address generator', function() {
         expect(keys.getPrivateKeyBuffer().toString('hex')).toBe('422d0091597ce6ec34f4f6c4c0d3db4a0dec70f2d57cd08858403dc4c5600efa');
         expect(keys.getPrivateKeyWif()).toBe('5JKRxEyFT9JHSwckH4NRCtHbJvo3mthVVB291YsX6bdu41kZF5k');
         expect(keys.getPublicKeyBuffer().toString('hex')).toBe('047ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78d082e4a4eba76cb51dfe3fb45e4d290120bba24b466f8885d47cd06243608f4b');
+        expect(keys.getCompressedPublicKeyBuffer().toString('hex')).toBe('037ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78');
         expect(keys.getAddress()).toBe('1KFHDgryDKC5ebnoRa2zhVL51JhQwEQK48');
     });
 
@@ -25,6 +27,7 @@ describe('A bitcoin address generator', function() {
         expect(keys.getPrivateKeyBuffer().toString('hex')).toBe('422d0091597ce6ec34f4f6c4c0d3db4a0dec70f2d57cd08858403dc4c5600efa');
         expect(keys.getPrivateKeyWif()).toBe('5JKRxEyFT9JHSwckH4NRCtHbJvo3mthVVB291YsX6bdu41kZF5k');
         expect(keys.getPublicKeyBuffer().toString('hex')).toBe('047ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78d082e4a4eba76cb51dfe3fb45e4d290120bba24b466f8885d47cd06243608f4b');
+        expect(keys.getCompressedPublicKeyBuffer().toString('hex')).toBe('037ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78');
         expect(keys.getAddress()).toBe('1KFHDgryDKC5ebnoRa2zhVL51JhQwEQK48');
     });
 
@@ -34,6 +37,7 @@ describe('A bitcoin address generator', function() {
         expect(keys.getPrivateKeyBuffer().toString('hex')).toBe('422d0091597ce6ec34f4f6c4c0d3db4a0dec70f2d57cd08858403dc4c5600efa');
         expect(keys.getPrivateKeyWif()).toBe('5JKRxEyFT9JHSwckH4NRCtHbJvo3mthVVB291YsX6bdu41kZF5k');
         expect(keys.getPublicKeyBuffer().toString('hex')).toBe('047ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78d082e4a4eba76cb51dfe3fb45e4d290120bba24b466f8885d47cd06243608f4b');
+        expect(keys.getCompressedPublicKeyBuffer().toString('hex')).toBe('037ae683fb3b5004f2229aa62887356a83020870c9a9cd3d3c933aede88c145d78');
         expect(keys.getAddress()).toBe('1KFHDgryDKC5ebnoRa2zhVL51JhQwEQK48');
     });
 

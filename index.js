@@ -15,12 +15,19 @@ function ripemd160(token) {
     return crypto.createHash('ripemd160').update(token).digest();
 }
 
+function getCoordinates(privateKey) {
+    var curvePt = secp256k1.G.multiply(privateKey);
+    return {x: curvePt.affineX.toBuffer(32), y: curvePt.affineY.toBuffer(32)};
+}
+
 function Generator(buf) {
     this.privateKey = {
         buffer: buf,
         bigi: bigi.fromBuffer(buf),
         wif: null
     };
+
+    this.coordinates = null;
 
     if (this.privateKey.bigi.signum() <= 0)
         throw new errors.PrivKeyGreaterZeroError();
@@ -30,7 +37,8 @@ function Generator(buf) {
 
     this.publicKey = {
         buffer: null,
-        address: null
+        address: null,
+        compressed: null
     }
 }
 
@@ -73,15 +81,29 @@ Generator.prototype.getPrivateKeyWif = function() {
 
 Generator.prototype.getPublicKeyBuffer = function() {
     if (this.publicKey.buffer === null) {
-        var curvePt = secp256k1.G.multiply(this.privateKey.bigi);
+        this.coordinates = this.coordinates || getCoordinates(this.privateKey.bigi);
+
         this.publicKey.buffer = Buffer.concat([
             new Buffer([0x04]),
-            curvePt.affineX.toBuffer(32),
-            curvePt.affineY.toBuffer(32)
+            this.coordinates.x,
+            this.coordinates.y
         ]);
     }
 
     return this.publicKey.buffer;
+};
+
+Generator.prototype.getCompressedPublicKeyBuffer = function () {
+    if (this.publicKey.compressed === null) {
+        this.coordinates = this.coordinates || getCoordinates(this.privateKey.bigi);
+
+        this.publicKey.compressed = Buffer.concat([
+            new Buffer([this.coordinates.y.readUInt8(this.coordinates.y.length - 1) % 2 === 0 ? 0x02 : 0x03]),
+            this.coordinates.x
+        ]);
+    }
+
+    return this.publicKey.compressed;
 };
 
 Generator.prototype.getAddress = function() {
